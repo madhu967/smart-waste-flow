@@ -5,6 +5,12 @@
   "framework": "vite",
   "outputDirectory": "dist",
   "regions": ["iad1"],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -25,3 +31,4 @@
     }
   ]
 }
+
