@@ -1,15 +1,27 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Recycle, CalendarDays, MapPin, Wallet, Leaf, User, Menu, X, LogOut } from 'lucide-react';
-import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { Link, useLocation } from "react-router-dom";
+import {
+  Recycle,
+  CalendarDays,
+  MapPin,
+  Wallet,
+  Leaf,
+  User,
+  Menu,
+  X,
+  LogOut,
+  Navigation,
+} from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { label: 'Weekly Pickup', path: '/weekly-pickup', icon: CalendarDays },
-  { label: 'Spot Pickup', path: '/spot-pickup', icon: MapPin },
-  { label: 'Wallet', path: '/wallet', icon: Wallet },
-  { label: 'Sustainability', path: '/sustainability', icon: Leaf },
-  { label: 'Profile', path: '/profile', icon: User },
+  { label: "Weekly Pickup", path: "/weekly-pickup", icon: CalendarDays },
+  { label: "Spot Pickup", path: "/spot-pickup", icon: MapPin },
+  { label: "Tracking", path: "/tracking", icon: Navigation },
+  { label: "Wallet", path: "/wallet", icon: Wallet },
+  { label: "Sustainability", path: "/sustainability", icon: Leaf },
+  { label: "Profile", path: "/profile", icon: User },
 ];
 
 const UserNavbar = () => {
@@ -36,8 +48,8 @@ const UserNavbar = () => {
                 to={item.path}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   active
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 <item.icon className="w-4 h-4" />
@@ -45,7 +57,12 @@ const UserNavbar = () => {
               </Link>
             );
           })}
-          <Button variant="ghost" size="icon" onClick={logout} className="ml-2 text-muted-foreground hover:text-destructive">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={logout}
+            className="ml-2 text-muted-foreground hover:text-destructive"
+          >
             <LogOut className="w-4 h-4" />
           </Button>
         </div>
@@ -54,7 +71,11 @@ const UserNavbar = () => {
           className="md:hidden p-2 rounded-lg hover:bg-muted"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </button>
       </div>
 
@@ -68,7 +89,9 @@ const UserNavbar = () => {
                 to={item.path}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${
-                  active ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
+                  active
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground"
                 }`}
               >
                 <item.icon className="w-4 h-4" />
@@ -76,7 +99,10 @@ const UserNavbar = () => {
               </Link>
             );
           })}
-          <button onClick={logout} className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-destructive w-full">
+          <button
+            onClick={logout}
+            className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-destructive w-full"
+          >
             <LogOut className="w-4 h-4" />
             Logout
           </button>

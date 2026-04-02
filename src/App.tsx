@@ -6,12 +6,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import AdminSetupPage from "./pages/AdminSetupPage";
 import HomePage from "./pages/HomePage";
 import WeeklyPickupPage from "./pages/WeeklyPickupPage";
 import SpotPickupPage from "./pages/SpotPickupPage";
 import WalletPage from "./pages/WalletPage";
 import SustainabilityPage from "./pages/SustainabilityPage";
 import ProfilePage from "./pages/ProfilePage";
+import TrackingPage from "./pages/TrackingPage";
 import WeeklyCollectorDashboard from "./pages/WeeklyCollectorDashboard";
 import SpotCollectorDashboard from "./pages/SpotCollectorDashboard";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -20,25 +22,39 @@ import AdminWeeklyCollectors from "./pages/admin/AdminWeeklyCollectors";
 import AdminSpotCollectors from "./pages/admin/AdminSpotCollectors";
 import AdminSpotBookings from "./pages/admin/AdminSpotBookings";
 import AdminSlots from "./pages/admin/AdminSlots";
+import AdminWasteCategories from "./pages/admin/AdminWasteCategories";
 import AdminWallet from "./pages/admin/AdminWallet";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
+
+  // Show loading spinner while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin mx-auto"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/admin-setup" element={<AdminSetupPage />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     );
   }
 
-  if (user?.role === 'admin') {
+  if (user?.role === "admin") {
     return (
       <Routes>
         <Route path="/admin" element={<AdminLayout />}>
@@ -47,6 +63,7 @@ const AppRoutes = () => {
           <Route path="spot-collectors" element={<AdminSpotCollectors />} />
           <Route path="spot-bookings" element={<AdminSpotBookings />} />
           <Route path="slots" element={<AdminSlots />} />
+          <Route path="waste-categories" element={<AdminWasteCategories />} />
           <Route path="wallet" element={<AdminWallet />} />
         </Route>
         <Route path="*" element={<Navigate to="/admin/users" />} />
@@ -54,16 +71,19 @@ const AppRoutes = () => {
     );
   }
 
-  if (user?.role === 'weekly_collector') {
+  if (user?.role === "weekly_collector") {
     return (
       <Routes>
-        <Route path="/weekly-collector" element={<WeeklyCollectorDashboard />} />
+        <Route
+          path="/weekly-collector"
+          element={<WeeklyCollectorDashboard />}
+        />
         <Route path="*" element={<Navigate to="/weekly-collector" />} />
       </Routes>
     );
   }
 
-  if (user?.role === 'spot_collector') {
+  if (user?.role === "spot_collector") {
     return (
       <Routes>
         <Route path="/spot-collector" element={<SpotCollectorDashboard />} />
@@ -77,6 +97,7 @@ const AppRoutes = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/weekly-pickup" element={<WeeklyPickupPage />} />
       <Route path="/spot-pickup" element={<SpotPickupPage />} />
+      <Route path="/tracking" element={<TrackingPage />} />
       <Route path="/wallet" element={<WalletPage />} />
       <Route path="/sustainability" element={<SustainabilityPage />} />
       <Route path="/profile" element={<ProfilePage />} />

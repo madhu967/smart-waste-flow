@@ -1,0 +1,51 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_FIREBASE_API_KEY": "@vite_firebase_api_key",
+    "VITE_FIREBASE_AUTH_DOMAIN": "@vite_firebase_auth_domain",
+    "VITE_FIREBASE_PROJECT_ID": "@vite_firebase_project_id",
+    "VITE_FIREBASE_STORAGE_BUCKET": "@vite_firebase_storage_bucket",
+    "VITE_FIREBASE_MESSAGING_SENDER_ID": "@vite_firebase_messaging_sender_id",
+    "VITE_FIREBASE_APP_ID": "@vite_firebase_app_id",
+    "VITE_FIREBASE_MEASUREMENT_ID": "@vite_firebase_measurement_id",
+    "VITE_ADMIN_EMAIL": "@vite_admin_email",
+    "VITE_ADMIN_PASSWORD": "@vite_admin_password"
+  },
+  "regions": ["iad1"],
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/admin/dashboard",
+      "permanent": false
+    }
+  ]
+}
